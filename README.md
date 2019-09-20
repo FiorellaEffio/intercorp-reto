@@ -1,3 +1,31 @@
+Aplicativo Web - Intercorp:
+
+Aplicación WEB desarrollada en React.
+
+Almacenar la data necesaria en Firebase.
+
+Deployar la Web APP en Firebase Hosting + código subido en GITHUB
+
+Formulario de entrada “Creación de Cliente”
+
+Nombre
+
+Apellido
+
+Edad
+
+Fecha de nacimiento
+
+Formulario de salida “Lista de Clientes”
+
+Promedio edad entre todos los clientes
+
+Desviación estándar entre las edades de todos los clientes
+
+Página de proyección y análisis de cliente
+
+Lista todos los datos de la persona + fecha probable de muerte de la misma
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
@@ -11,11 +39,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br>
 You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.<br>
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
 ### `npm run build`
 
