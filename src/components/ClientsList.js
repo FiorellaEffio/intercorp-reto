@@ -12,7 +12,8 @@ class ClientsList extends Component {
         currentLastName: 'fff',
         currentAge: 0,
         currentBirthday: '',
-        estimateDeathDate: ''
+        estimateDeathDate: '',
+        monthsNames: ["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Setiembre","Octubre","Noviembre","Diciembre"]
     }
     componentDidMount() {
         let dataWithID;
@@ -25,26 +26,39 @@ class ClientsList extends Component {
                 })
             })
         })
+        let dataAgeYearRelation = {};
         db.collection('esperanza-vida-peru').get().then((snapshots) => {
             snapshots.docs.map(doc => {
-                console.log(doc.id);
-                console.log(parseFloat(doc.data().promedad));
-
+                dataAgeYearRelation[doc.id] = parseFloat(doc.data().promedad);
             })
-            // this.setState({
-            //     clients: snapshots.docs.map(doc => {
-            //         dataWithID = doc.data();
-            //         dataWithID.id = doc.id;
-            //         return dataWithID;
-            //     })
-            // })
-            // console.log(this.state.clients);
+            this.setState({
+                peruvianAverageAges: dataAgeYearRelation
+            })
+            console.log(this.state.peruvianAverageAges);
         })
     };
     updateCurrentDataForModal = (currentClient) => {
         console.log(currentClient)
         let currentEstimateDeathDate = 0;
+        let currentAverageAge = this.state.peruvianAverageAges[currentClient.cumple.slice(0,4)]
+        if(currentAverageAge == undefined) {
+            currentAverageAge = 75.83;
+        }
+        let userDataMonth = parseInt(currentClient.cumple.slice(5,7));
+        let userDataDay = parseInt(currentClient.cumple.slice(8,10));
+        let addUserPastTimeFromBirthday = ((userDataDay / 30 ) + userDataMonth ) / 12;
+        currentAverageAge += addUserPastTimeFromBirthday;
+        let currentYear = parseInt(parseInt(currentClient.cumple.slice(0,4)) + parseFloat(currentAverageAge));
+        let currentMonth = (parseFloat(currentAverageAge) - parseInt(currentAverageAge)) * 12;
+        let currentDay = parseInt((parseFloat(currentMonth) - parseInt(currentMonth)) * 30) + 1;
+        currentMonth = parseInt(currentMonth);
 
+        currentEstimateDeathDate = currentDay + " de " + this.state.monthsNames[currentMonth - 1] + " del " + currentYear;
+        console.log(currentYear)
+        console.log(currentMonth)
+        console.log(currentDay)
+        console.log(userDataMonth)
+        console.log(addUserPastTimeFromBirthday)
         this.setState({
             currentName: currentClient.nombre,
             currentLastName: currentClient.apellido,
