@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import db from '../FirebaseConfig';
-import { List, Avatar, Button, Modal } from 'antd';
+import { List, Avatar, Button, Modal, Row, Col, Icon } from 'antd';
 import userLogo from '../user-circle.png'
 
 class ClientsList extends Component {
@@ -34,14 +34,12 @@ class ClientsList extends Component {
             this.setState({
                 peruvianAverageAges: dataAgeYearRelation
             })
-            console.log(this.state.peruvianAverageAges);
         })
     };
     updateCurrentDataForModal = (currentClient) => {
-        console.log(currentClient)
         let currentEstimateDeathDate = 0;
         let currentAverageAge = this.state.peruvianAverageAges[currentClient.cumple.slice(0,4)]
-        if(currentAverageAge == undefined) {
+        if(currentAverageAge === undefined) {
             currentAverageAge = 75.83;
         }
         let userDataMonth = parseInt(currentClient.cumple.slice(5,7));
@@ -52,13 +50,7 @@ class ClientsList extends Component {
         let currentMonth = (parseFloat(currentAverageAge) - parseInt(currentAverageAge)) * 12;
         let currentDay = parseInt((parseFloat(currentMonth) - parseInt(currentMonth)) * 30) + 1;
         currentMonth = parseInt(currentMonth);
-
-        currentEstimateDeathDate = currentDay + " de " + this.state.monthsNames[currentMonth - 1] + " del " + currentYear;
-        console.log(currentYear)
-        console.log(currentMonth)
-        console.log(currentDay)
-        console.log(userDataMonth)
-        console.log(addUserPastTimeFromBirthday)
+        currentEstimateDeathDate = currentDay + " de " + this.state.monthsNames[currentMonth] + " del " + currentYear;
         this.setState({
             currentName: currentClient.nombre,
             currentLastName: currentClient.apellido,
@@ -73,40 +65,57 @@ class ClientsList extends Component {
             visible: true,
         });
     };
-    
     handleCancel = e => {
-        console.log(e);
         this.setState({
             visible: false,
         });
     };
     render() {
         return (
-            <div className="clientList">
-                <h1>Nuestros clientes</h1>
-                <List
-                itemLayout="horizontal"
-                dataSource={this.state.clients}
-                renderItem = {client => {
-                    return <List.Item>
-                        <List.Item.Meta
-                            avatar={<Avatar src={userLogo} />}
-                            title={<p>{client.nombre} {client.apellido}</p>}
-                            description={<p>{client.edad} / {client.cumple}</p>}
-                        />
-                        <div><Button block onClick={() => {this.updateCurrentDataForModal(client)}}>Ver fecha de muerte</Button></div>
-                    </List.Item>
-                }}
-                />
-                <Modal
-                title={this.state.currentName + " " + this.state.currentLastName}
-                visible={this.state.visible}
-                onCancel={this.handleCancel}
-                footer={null}
-                >
-                    <p>La posible fecha de tu muerte será</p>
-                    <p>{this.state.estimateDeathDate}</p>
-                </Modal>
+            <div className="container">
+                <div className="content-des-mob">
+                    <h1>Nuestros clientes</h1>
+                    <List
+                    itemLayout="horizontal"
+                    dataSource={this.state.clients}
+                    renderItem = {client => {
+                        return <Row className="client-item">
+                            <Col xs={4} >
+                                <Avatar src={userLogo} />
+                            </Col>
+                            <Col xs={20} >
+                                <Row>
+                                    <Col md={24} lg={13}>
+                                        <p>{client.nombre} {client.apellido}</p>
+                                    </Col>
+                                    <Col md={24} lg={11} >
+                                        <Button block onClick={() => {this.updateCurrentDataForModal(client)}}>Ver fecha de muerte</Button>
+                                    </Col>
+                                </Row>
+                            </Col>
+                        </Row>
+                    }}
+                    />
+                    <Modal
+                    title={"Resumen: Cliente " + this.state.currentName + " " + this.state.currentLastName}
+                    visible={this.state.visible}
+                    onCancel={this.handleCancel}
+                    footer={null}
+                    >   
+                        <h2><big>¡Hola!</big></h2>
+                        <p>{this.state.currentName} {this.state.currentLastName} tiene como fecha aproximada de muerte:</p>
+                        <div className="estimate-date">
+                            <p>{this.state.estimateDeathDate}</p>
+                        </div>
+                        <h4>Algunos otros datos de {this.state.currentName}</h4>
+                        <div>
+                            <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> Edad: {this.state.currentAge}
+                        </div>
+                        <div>
+                            <Icon type="check-circle" theme="twoTone" twoToneColor="#52c41a" /> Fecha de nacimiento: {this.state.currentBirthday}
+                        </div>
+                    </Modal>
+                </div>
             </div>
         )
     }

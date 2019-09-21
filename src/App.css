@@ -1,36 +1,85 @@
 @import '../node_modules/antd/dist/antd.css';
 
-.logo {
-  width: 120px;
-  height: 31px;
-  margin: 0;
-  float: left;
+.ant-layout-header {
+  height: auto;
 }
-
 footer {
   position: absolute;
   bottom: 0;
   width: 100%;
   height: 60px;
 }
-
+.menu {
+  line-height: 64px;
+}
+.ant-layout-content {
+  padding: 20px 50px;
+}
+.content-des-mob {
+  width: 50%;
+  padding: 20px 0;
+}
+.container {
+  padding: 24px;
+  background: #fff;
+  height: auto;
+  display: flex;
+  justify-content: center;
+}
+.input-field {
+  margin: 17px;
+}
 .menu {
   float: right;
 }
-
 #root {
   height: calc(100% - 60px) !important;
 }
-
 .App, .ant-layout {
   height: 100%;
 }
-
 .ant-layout-content {
   overflow: auto;
 }
-
-.clientList {
-  padding: 24px;
-  background: #fff;
+.client-item {
+  margin: 20px 0;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 10px;
+}
+.estimate-date {
+  text-align: center;
+  font-size: 30px;
+  color: red;
+}
+@media (max-width: 767px) {
+  .App-logo {
+    text-align: center;
+  }
+  .ant-layout-header {
+    padding: 0;
+  }
+  .menu {
+    line-height: 40px;
+    float: none !important;
+    text-align: center;
+    display: flex;
+    justify-content: space-between;
+  }
+  .ant-menu-item {
+    padding: 0 50px;
+  }
+  .ant-layout-content {
+    padding: 13px;
+  }
+  .content-des-mob {
+    width: 100%;
+  }
+  .ant-result {
+    padding: 0;
+  }
+  .ant-result-title {
+    font-size: 20px;
+    font-weight: 600;
+  }
 }

@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import db from '../FirebaseConfig';
-import { List, Avatar } from 'antd';
-import userLogo from '../user-circle.png'
 
 class ClientsList extends Component {
     state = {
@@ -17,7 +15,6 @@ class ClientsList extends Component {
                 })
             })
         }).then(() => {
-            console.log(this.state.ages);
             let media = 0;
             this.state.ages.forEach(age => {
                 media += age;
@@ -30,22 +27,25 @@ class ClientsList extends Component {
             let sumQuadratic = 0;
             quadraticElements.forEach(quadraticElement => {
                 sumQuadratic += quadraticElement;
-            })
-            let newDeviation = Math.sqrt(sumQuadratic/this.state.ages.length);
+            });
+            let newDeviation = Math.round(Math.sqrt(sumQuadratic/this.state.ages.length) * 100) / 100;
+            media = Math.round(media * 100) / 100;
             this.setState({
                 standDev: newDeviation,
                 agesProm: media
-            }) 
-            console.log(media)
-            console.log(sumQuadratic)
-            console.log(newDeviation)
+            });
         })
     }
     render() {
         return (
-            <div className="clientList">
-                <p>Promedio de edades clientes: {this.state.agesProm}</p>
-                <p>Desviación estándar: {this.state.standDev}</p>
+            <div className="container">
+                <div className="content-des-mob">
+                    <h2>La edad promedio de nuestros clientes es:</h2> 
+                    <p>{this.state.agesProm}</p>
+                    <h2>Desviación estándar:</h2> 
+                    <p>σ = {this.state.standDev}</p>
+                    <small>*Los resultados estan siendo redondeados a 2 decimales.</small>
+                </div>
             </div>
         )
     }
